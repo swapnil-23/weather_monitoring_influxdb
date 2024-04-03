@@ -23,18 +23,51 @@ def get_weather(api_key, city):
     feels_like = response['main']['feels_like']
     feels_like = math.floor((feels_like * 1.8) - 459.67)
 
-    humdity = response['main']['humidity']
+    humidity = response['main']['humidity']
 
     return {
         'temp': temp,
         'feels_like': feels_like,
-        'humdity': humdity
+        'humidity': humidity
 
     }
 
 
 weather = get_weather(api_key, city_name)
 
-print(weather['temp'])
-print(weather['feels_like'])
-print(weather['humdity'])
+## making the tkinter gui
+
+root = Tk()
+root.geometry("300x300")
+root.title(f'{city_name[:-3]} Weather')
+
+## making the title 
+
+def display_city_name(city):
+    city_label = Label(root, text=f"{city_name[:-3]}")
+    city_label.config(font=("Times New Roman", 28))
+    city_label.pack(side='top')
+
+
+## making the weather stats field
+    
+def display_stats(weather):
+    temp = Label(root, text=f"Temperature: {weather['temp']} F")
+    feels_like = Label(root, text=f"Feels Like: {weather['feels_like']} F")
+    humidity = Label(root, text=f"Humidity: {weather['humidity']} %")
+
+
+    temp.config(font=("Arial", 22))
+    feels_like.config(font=("Arial", 16))
+    humidity.config(font=("Arial", 16))
+
+    temp.pack(side='top')
+    feels_like.pack(side='top')
+    humidity.pack(side='top')
+
+
+display_city_name(city_name)
+
+display_stats(weather)
+
+mainloop()
